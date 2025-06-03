@@ -1,4 +1,5 @@
 import math
+import matplotlib.pyplot as plt  # 新增绘图库
 
 # 定义方程和其导数
 def f(x):
@@ -43,10 +44,39 @@ def newton_method(x0, iterations):
 if __name__ == "__main__":
     iterations = 10
 
+    # 初始化绘图
+    plt.figure(figsize=(10, 6))
+    plt.title('Error Convergence Comparison')
+    plt.xlabel('Iteration')
+    plt.ylabel('Error (log scale)')
+    plt.yscale('log')
+
     # 二分法
-    print("二分法结果:")
     a, b = 0, 1
     bisection_results = bisection_method(a, b, iterations)
+    iterations_bisection = [x[0] for x in bisection_results]
+    errors_bisection = [x[2] for x in bisection_results]
+    plt.plot(iterations_bisection, errors_bisection, 'o-', label='Bisection')
+
+    # 单点迭代法
+    x0 = 0.4
+    fixed_point_results = fixed_point_iteration(x0, iterations)
+    iterations_fixed = [x[0] for x in fixed_point_results]
+    errors_fixed = [x[2] for x in fixed_point_results] 
+    plt.plot(iterations_fixed, errors_fixed, 's--', label='Fixed-point')
+
+    # Newton法
+    x0 = 0.4
+    newton_results = newton_method(x0, iterations)
+    iterations_newton = [x[0] for x in newton_results]
+    errors_newton = [x[2] for x in newton_results]
+    plt.plot(iterations_newton, errors_newton, '^-', label='Newton')
+
+    # 添加图例和保存
+    plt.legend()
+    plt.grid(True)
+    plt.savefig('c:/Users/lgl20/Desktop/计算方法/convergence_plot.png')
+    plt.close()
     for i, x, error in bisection_results:
         print(f"第{i}次迭代: x = {x:.10f}, 误差 = {error:.10f}")
 
