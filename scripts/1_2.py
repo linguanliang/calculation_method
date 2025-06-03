@@ -1,5 +1,6 @@
 import math
 import time
+import matplotlib.pyplot as plt
 
 # 定义目标函数及其导数
 def f(x):
@@ -59,6 +60,37 @@ def modified_newton_unknown_m(x0, max_iter=10):
 if __name__ == "__main__":
     x0 = math.pi / 2  # 初始值
     max_iter = 10
+
+    # 配置中文字体
+    plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows系统黑体
+    plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
+
+    # 初始化绘图
+    plt.figure(figsize=(10, 6))
+    plt.title('牛顿法误差收敛对比')
+    plt.xlabel('迭代次数')
+    plt.ylabel('误差（对数坐标）')
+    plt.yscale('log')
+
+    # 收集三种方法的误差数据
+    methods = {
+        "标准牛顿法": newton_method(x0, max_iter)[0],
+        "已知重数修正法": modified_newton_known_m(x0, max_iter)[0],
+        "未知重数修正法": modified_newton_unknown_m(x0, max_iter)[0]
+    }
+
+    # 绘制曲线
+    markers = ['o-', 's--', '^-']
+    for (name, results), marker in zip(methods.items(), markers):
+        iterations = [x[0] for x in results]
+        errors = [x[2] for x in results]
+        plt.plot(iterations, errors, marker, label=name)
+
+    # 添加图例和保存
+    plt.legend()
+    plt.grid(True)
+    plt.savefig('c:/Users/lgl20/Desktop/计算方法/newton_comparison.png')
+    plt.close()
 
     # Newton 迭代法
     results_newton, time_newton = newton_method(x0, max_iter)
