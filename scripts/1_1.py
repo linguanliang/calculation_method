@@ -44,11 +44,15 @@ def newton_method(x0, iterations):
 if __name__ == "__main__":
     iterations = 10
 
+    # 配置中文字体
+    plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows系统黑体
+    plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
+    
     # 初始化绘图
     plt.figure(figsize=(10, 6))
-    plt.title('Error Convergence Comparison')
-    plt.xlabel('Iteration')
-    plt.ylabel('Error (log scale)')
+    plt.title('误差收敛对比图')  # 中文标题
+    plt.xlabel('迭代次数')       # 中文x轴标签
+    plt.ylabel('误差（对数坐标）') # 中文y轴标签
     plt.yscale('log')
 
     # 二分法
